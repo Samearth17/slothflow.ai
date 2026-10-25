@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="SlothFlow AI turns brain dumps into manageable, reviewable action plans.">
+  <title>SlothFlow AI — Do less. Get more done.</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/"><span class="brand-mark">s</span><span>slothflow<span class="brand-ai">.ai</span></span></a>
+      <p class="side-label">WORKSPACE</p>
+      <button class="nav-item active" data-view="plan"><span class="nav-icon">✳</span> Brain dump</button>
+      <button class="nav-item" data-view="tasks"><span class="nav-icon">☷</span> My tasks <span class="nav-count" id="task-count">0</span></button>
+      <button class="nav-item" data-view="reset"><span class="nav-icon">↻</span> Daily reset</button>
+      <div class="sidebar-bottom">
+        <div class="privacy-icon">⌁</div>
+        <strong>Your space, your pace.</strong>
+        <p>Notes stay on your machine. Local AI is optional.</p>
+        <span class="status-pill"><span class="status-dot"></span><span id="engine-status">Checking local AI…</span></span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><span id="today-label">YOUR PRODUCTIVITY SPACE</span><span class="topbar-right"><span class="status-dot"></span> Local-first workspace</span></header>
+
+      <section class="view active" id="view-plan">
+        <div class="hero">
+          <div class="eyebrow">A LITTLE LESS OVERWHELM</div>
+          <h1>Big brain dump.<br><em>Small next steps.</em></h1>
+          <p class="hero-copy">Get everything out of your head. We'll help you turn the mess into a plan you can actually start.</p>
+        </div>
+        <div class="work-grid">
+          <section class="panel input-panel">
+            <div class="panel-heading"><div><span class="step">01</span><h2>Empty your mind</h2></div><span class="subtle">No formatting needed</span></div>
+            <textarea id="brain-dump" maxlength="12000" placeholder="I need to finish my project report, prepare for interviews, reply to my mentor, clean up my downloads…"></textarea>
+            <div class="input-footer"><span id="char-count">0 / 12,000</span><button class="text-button" id="example-btn">Try an example ↗</button></div>
+            <button class="primary-btn full" id="plan-btn"><span>Turn this into a plan</span><span>→</span></button>
+            <p class="microcopy">Your draft is sent only to your local Ollama server when available. Otherwise, a simple local rules engine helps you get started.</p>
+          </section>
+          <section class="panel preview-panel">
+            <div class="panel-heading"><div><span class="step">02</span><h2>Your next steps</h2></div><span class="subtle" id="draft-count">Waiting for your notes</span></div>
+            <div id="plan-output" class="empty-state"><div class="empty-art"><span>✳</span><span>↗</span><span>·</span></div><h3>Clarity starts small.</h3><p>Your plan will appear here. Review it, save what matters, and leave the rest for later.</p></div>
+            <div id="plan-summary" class="plan-summary hidden"></div>
+            <div id="draft-tasks" class="draft-tasks"></div>
+            <div id="save-all-wrap" class="save-all-wrap hidden"><button id="save-all-btn" class="primary-btn full">Save selected tasks <span>→</span></button><p class="microcopy">Nothing is saved until you choose to save it.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-tasks">
+        <div class="page-heading"><div class="eyebrow">YOUR WORKSPACE</div><h1>Make room for <em>progress.</em></h1><p>Small wins count. Keep your next steps visible and manageable.</p></div>
+        <div class="stats-row"><div class="stat-card"><span>Open tasks</span><strong id="open-stat">0</strong></div><div class="stat-card"><span>Completed</span><strong id="done-stat">0</strong></div><div class="stat-card"><span>Estimated time left</span><strong id="time-stat">0m</strong></div></div>
+        <div class="task-toolbar"><h2>Task list</h2><button class="secondary-btn" id="add-task-btn">＋ Add a task</button></div>
+        <div id="task-list" class="task-list"></div>
+        <div id="add-task-form" class="panel add-form hidden">
+          <h3>Add a task</h3><input id="new-title" maxlength="180" placeholder="What needs doing?">
+          <div class="form-row"><select id="new-priority"><option value="medium">Medium priority</option><option value="high">High priority</option><option value="low">Low priority</option></select><select id="new-estimate"><option value="15">15 minutes</option><option value="25" selected>25 minutes</option><option value="45">45 minutes</option><option value="60">1 hour</option></select></div>
+          <textarea id="new-details" placeholder="Optional next step or context"></textarea><div class="form-actions"><button class="secondary-btn" id="cancel-add">Cancel</button><button class="primary-btn" id="create-task-btn">Save task →</button></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-reset">
+        <div class="page-heading"><div class="eyebrow">A FRESH START</div><h1>Reset, don't <em>restart.</em></h1><p>You don't need a perfect day. You need one useful next step.</p></div>
+        <div class="reset-card panel"><div class="reset-top"><div><span class="eyebrow">YOUR DAILY RESET</span><h2 id="reset-date">Today's overview</h2></div><div class="reset-symbol">↻</div></div><div class="reset-stats"><div><strong id="reset-open">0</strong><span>open tasks</span></div><div><strong id="reset-time">0m</strong><span>estimated work</span></div></div><p class="reset-message" id="reset-message">A calmer plan starts with a quick review.</p><h3>Suggested starting point</h3><div id="reset-list" class="task-list"></div><button class="primary-btn" id="reset-refresh">Refresh overview ↻</button></div>
+      </section>
+      <footer><span>SlothFlow AI</span><span>Built for a calmer kind of productivity.</span></footer>
+    </main>
+  </div>
+  <div id="toast" role="status" aria-live="polite" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
